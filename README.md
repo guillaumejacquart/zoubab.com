@@ -7,3 +7,5 @@ The Zoubab frontend website, using the following tech stack:
   - Vuejs
   - Nedb for storage
 
+Production : http://www.zoubab.com
+
