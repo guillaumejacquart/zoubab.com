@@ -1,16 +1,26 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
+  display:none;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
-form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { list-style-type: none; margin: 0; padding: 0; }
+body { font: 13px segoe ui light, Arial; }
+
+#chat{
+	form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 50%; left:25%}
+	form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+	form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+}
+
+#messages { list-style-type: none; margin: 0; padding: 0; width: 50%; margin-left:25%; margin-bottom: 45px;}
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
+
+#home{
+	margin-top: 100px;
+	text-align:center;
+	font-size: 3rem;
+	font-family: 'Special Elite', cursive;
+	text-transform: uppercase;
+	text-shadow: 0px 0px 10px rgba(30, 30, 200, 0.8);
+}

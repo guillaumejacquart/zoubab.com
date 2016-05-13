@@ -1,0 +1,23 @@
+{
+  "name": "zoubab.com",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Guillaume Jacquart <guillaume@dev.euphor.fr>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/guillaumejacquart/zoubab.com",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "^1.0.24",
+    "moment": "^2.13.0"
+  }
+}
