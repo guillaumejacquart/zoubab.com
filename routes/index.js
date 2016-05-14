@@ -1,36 +1,48 @@
 var express = require('express');
+var passport = require('passport');
+var socketioJwt = require('socketio-jwt');
 var router = express.Router();
+var constants = require('../middlewares/constants');
+var User = require('../models/users');
+var Chat = require('../models/chats');
 
-// Type 2: Persistent datastore with manual loading
-var Datastore = require('nedb')
-  , db = new Datastore({ filename: 'db.data', autoload: true  });
+router.post('/login',
+	passport.authenticate('local', { session: false }),
+	function(req, res) {
+		res.json(req.user);
+});
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	res.render('index', { title: 'Zoubab' });
+router.post('/register', function(req, res) {	
+	User.insert(req.body.username, req.body.password, function(user){
+		res.json(user);	
+	});
 });
 
 /* GET home page. */
-router.get('/messages', function(req, res, next) {
-	db.find({}, function (err, docs) {		
-		res.json(docs);
-	});
+router.get('/messages', 
+	passport.authenticate('bearer', { session: false }),
+	function(req, res, next) {
+		Chat.find(function (err, docs) {		
+			res.json(docs);
+		});
 });
 
 module.exports = function(io){	
 
 	// socket.io events
-	io.on( "connection", function( socket ){
+	io.on("connection", socketioJwt.authorize({
+		secret: constants.secret,
+		timeout: 15000 // 15 seconds to send the authentication message
+	}));
+		
+		
+	io.on('authenticated', function(socket){
+		console.log('connected & authenticated: ' + JSON.stringify(socket.decoded_token));
+		
 		socket.on('chat message', function(msg){
 			
-			var date = new Date();
-			var doc = { 
-				text: msg,
-				date: date               
-		    };
-
-			db.insert(doc, function (err, newDoc) {				
-				io.emit('chat message', doc);
+			Chat.insert(socket.decoded_token.username, msg, function (err, newDoc) {				
+				io.emit('chat message', newDoc);
 			});
 			
 		});

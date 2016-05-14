@@ -1,0 +1,26 @@
+<div class="container">
+	<div id="home" class="animated bounce">
+		<h1>Zoubab</h1>
+	</div>
+
+	<div id="app">
+		<ul id="messages" class="list-group">
+			<li ng-repeat="m in home.messages" class="list-group-item">
+				{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }} {{m.username}} : {{ m.msg }}
+			</li>
+		</ul>
+	</div>
+</div>
+	
+<footer class="footer">
+	<div class="container">
+		<form id="chat-form" ng-submit="home.submit(home.msg)">
+			<div class="input-group">
+				<input ng-model="home.msg" autocomplete="off" class="form-control" placeholder="Say a little prayer for Zoubab"/>
+				<span class="input-group-btn">
+					<button class="btn btn-success" type="submit">Send!</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</footer>

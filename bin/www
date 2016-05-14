@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('zoubab.com:server');
 var http = require('http');
+var constants = require('../middlewares/constants');
 
 
 /**
@@ -27,7 +28,7 @@ var server = http.createServer(app);
  */
 
 var io     = app.io
-io.attach( server );
+io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.
