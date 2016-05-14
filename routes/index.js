@@ -22,8 +22,13 @@ router.post('/register', function(req, res) {
 router.get('/messages', 
 	passport.authenticate('bearer', { session: false }),
 	function(req, res, next) {
-		Chat.find(function (err, docs) {		
-			res.json(docs);
+		User.findConnected(function(err, users){			
+			Chat.find(function (err, messages) {		
+				res.json({
+					messages: messages,
+					users: users
+				});
+			});
 		});
 });
 
@@ -38,13 +43,21 @@ module.exports = function(io){
 		
 	io.on('authenticated', function(socket){
 		console.log('connected & authenticated: ' + JSON.stringify(socket.decoded_token));
+		User.update(socket.decoded_token.username, true);		
+		io.emit('connected_user', socket.decoded_token);
 		
 		socket.on('chat message', function(msg){
-			
 			Chat.insert(socket.decoded_token.username, msg, function (err, newDoc) {				
 				io.emit('chat message', newDoc);
 			});
 			
+		});
+	});
+	
+	// socket.io events
+	io.on("disconnect", function(socket){
+		User.update(socket.decoded_token.username, true, function(){	
+			io.emit('disconnected_user', socket.decoded_token);
 		});
 	});
 	

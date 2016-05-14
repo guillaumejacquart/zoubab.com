@@ -20,7 +20,7 @@ module.exports = {
         });
     },
     find: function(callback){
-        db.Chat.find({}, function (err, docs) {
+        db.Chat.find({}).sort({ date: 1 }).exec(function (err, docs) {
             if(callback){
                 callback(err, docs);
             }

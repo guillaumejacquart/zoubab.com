@@ -1,14 +1,26 @@
-<div class="container">
+<div class="container" id="chat-container">
 	<div id="home" class="animated bounce">
 		<h1>Zoubab</h1>
 	</div>
-
-	<div id="app">
-		<ul id="messages" class="list-group">
-			<li ng-repeat="m in home.messages" class="list-group-item">
-				{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }} {{m.username}} : {{ m.msg }}
-			</li>
-		</ul>
+	
+	<div class="row">
+		<div class="col col-md-9">
+			<div id="messages" class="list-group" schroll-bottom="home.messages">		
+				<div ng-repeat="m in home.messages" class="list-group-item">
+					<h4 class="list-group-item-heading">{{m.username}}<em>{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }}</em></h4>
+					<p class="list-group-item-text">{{ m.msg }}</p>
+				</div>
+			</div>
+		</div>
+			
+		<div class="col col-md-3" id="chat-users">
+			<h3>Connected</h3>
+			<div class="list-group">
+				<div ng-repeat="m in home.users" class="list-group-item">
+					<h4 class="list-group-item-heading">{{m.username}}</h4>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 	
