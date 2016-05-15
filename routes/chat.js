@@ -6,20 +6,8 @@ var constants = require('../middlewares/constants');
 var User = require('../models/users');
 var Chat = require('../models/chats');
 
-router.post('/login',
-	passport.authenticate('local', { session: false }),
-	function(req, res) {
-		res.json(req.user);
-});
-
-router.post('/register', function(req, res) {	
-	User.insert(req.body.username, req.body.password, function(user){
-		res.json(user);	
-	});
-});
-
 /* GET home page. */
-router.get('/messages', 
+router.get('/', 
 	passport.authenticate('bearer', { session: false }),
 	function(req, res, next) {
 		User.findConnected(function(err, users){			
@@ -52,13 +40,14 @@ module.exports = function(io){
 			});
 			
 		});
-	});
 	
-	// socket.io events
-	io.on("disconnect", function(socket){
-		User.update(socket.decoded_token.username, true, function(){	
-			io.emit('disconnected_user', socket.decoded_token);
+		// socket.io events
+		socket.on("disconnect", function(){
+			User.update(socket.decoded_token.username, false, function(){	
+				io.emit('disconnected_user', socket.decoded_token);
+			});
 		});
+		
 	});
 	
 	return router;

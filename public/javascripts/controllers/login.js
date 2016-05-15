@@ -1,13 +1,14 @@
-app.controller('LoginCtrl', ['$http', '$location', function ($http, $location) {
+app.controller('LoginCtrl', ['$scope', '$location', 'UserService', function ($scope, $location, UserService) {
     
 	var vm = this;
 	vm.user = {};
 	
 	vm.submit = function(){
-		$http.post('login', vm.user).then(function(response){
-			localStorage.setItem('user', JSON.stringify(response.data));
+		$scope.error = '';
+		UserService.login(vm.user).then(function(user){
 			$location.path('/home');
 		}, function(error){
+			$scope.error = error;
 		});
 	};
 }]);

@@ -5,8 +5,8 @@
 	
 	<div class="row">
 		<div class="col col-md-9">
-			<div id="messages" class="list-group" schroll-bottom="home.messages">		
-				<div ng-repeat="m in home.messages" class="list-group-item">
+			<div id="messages" class="list-group" schroll-bottom="chat.messages">		
+				<div ng-repeat="m in chat.messages" class="list-group-item">
 					<h4 class="list-group-item-heading">{{m.username}}<em>{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }}</em></h4>
 					<p class="list-group-item-text">{{ m.msg }}</p>
 				</div>
@@ -16,8 +16,8 @@
 		<div class="col col-md-3" id="chat-users">
 			<h3>Connected</h3>
 			<div class="list-group">
-				<div ng-repeat="m in home.users" class="list-group-item">
-					<h4 class="list-group-item-heading">{{m.username}}</h4>
+				<div ng-repeat="m in chat.users" class="list-group-item">
+					<p class="list-group-item-heading">{{m.username}}</p>
 				</div>
 			</div>
 		</div>
@@ -26,9 +26,9 @@
 	
 <footer class="footer">
 	<div class="container">
-		<form id="chat-form" ng-submit="home.submit(home.msg)">
+		<form id="chat-form" ng-submit="chat.submit(chat.msg)">
 			<div class="input-group">
-				<input ng-model="home.msg" autocomplete="off" class="form-control" placeholder="Say a little prayer for Zoubab"/>
+				<input ng-model="chat.msg" autocomplete="off" class="form-control" placeholder="Say a little prayer for Zoubab"/>
 				<span class="input-group-btn">
 					<button class="btn btn-success" type="submit">Send!</button>
 				</span>

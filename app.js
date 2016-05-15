@@ -17,7 +17,8 @@ app.io = io;
 app.use(passport.initialize());
 require('./middlewares/auth');
 
-var routes = require('./routes/index')(io);
+var user = require('./routes/user');
+var chat = require('./routes/chat')(io);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -28,7 +29,8 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/api/users', user);
+app.use('/api/chats', chat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

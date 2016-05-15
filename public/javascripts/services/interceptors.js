@@ -14,9 +14,10 @@ app.factory('sessionInjector', ['$location', function($location) {
         },
 		responseError: function(response) {
             // Session has expired
-            if (response.status == 401){
+            if (response.status == 401 && $location.path() != '/login'){
                 $location.path('/login');
             }
+			return response;
         }
     };
     return sessionInjector;

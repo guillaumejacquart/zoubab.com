@@ -5,10 +5,10 @@ var app = angular.module('app', [
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/home', {
-        templateUrl: 'partials/home.html',
-        controller: 'HomeCtrl',
-		controllerAs: 'home'
+      when('/chat', {
+        templateUrl: 'partials/chat.html',
+        controller: 'ChatCtrl',
+		controllerAs: 'chat'
       }).
       when('/login', {
         templateUrl: 'partials/login.html',
@@ -21,6 +21,6 @@ app.config(['$routeProvider',
 		controllerAs: 'register'
       }).
       otherwise({
-        redirectTo: '/home'
+        redirectTo: '/chat'
       });
   }]);
