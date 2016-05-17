@@ -11,7 +11,7 @@ app.factory('ChatService', ['$http', '$q', function($http, $q) {
 		}
 	};
 	
-	var socket = io('http://localhost:3003', {'sync disconnect on unload':true});
+	var socket = io();
 	socket.on('connect', function () {
 		socket.on('authenticated', function () {
 			//Do
