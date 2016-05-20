@@ -5,16 +5,12 @@ var jwt = require('jsonwebtoken');
 var db = require('./db');
 
 module.exports = {
-    insert: function(username, password, callback){
+    insert: function(user, callback){        
+        var hash = bcrypt.hashSync(user.email + user.password, constants.salt);
+        user.isConnected = false;
+        user.hash = hash;
         
-        var hash = bcrypt.hashSync(username + password, constants.salt);
-        var doc = { 
-            username: username,
-            hash: hash, 
-            isConnected: false
-        };
-        
-        db.Users.insert(doc, function (err, newDoc) {		
+        db.Users.insert(user, function (err, newDoc) {		
             var token = jwt.sign(newDoc, constants.secret);
             if(callback){
                 newDoc.token = token;
@@ -22,10 +18,17 @@ module.exports = {
             }
         });
     },
-    find: function(username, password, callback){        
-	    var hash = bcrypt.hashSync(username + password, constants.salt);
+    find: function(email, password, callback){        
+	    var hash = bcrypt.hashSync(email + password, constants.salt);
         
-        db.Users.findOne({ username: username, hash: hash }, function (err, user) {
+        db.Users.findOne({ email: email, hash: hash }, function (err, user) {
+            if(callback){
+                callback(err, user);
+            }
+        });
+    },
+    get: function(id, callback){        
+        db.Users.findOne({ _id: id }, function (err, user) {
             if(callback){
                 callback(err, user);
             }
@@ -38,11 +41,18 @@ module.exports = {
             }
         });
     },
-    update: function(username, isConnected, callback){
-        db.Users.update({ username: username }, { $set: { isConnected: isConnected } }, { multi: true, upsert: false }, function (err, numReplaced) {
+    update: function(id, user, callback){
+        db.Users.update({ _id: id }, { $set: user }, { returnUpdatedDocs: true, multi: false}, function (err, numReplaced, affectedDocuments) {
             db.Users.persistence.compactDatafile();
             if(callback){
-                callback(err);
+                callback(err, affectedDocuments);
+            }
+        });
+    },
+    getDeviceTokens: function(callback){
+        db.Users.find({}, { device: 1 }, function (err, user) {
+            if(callback){
+                callback(err, user);
             }
         });
     }

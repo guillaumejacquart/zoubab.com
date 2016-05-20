@@ -1,4 +1,4 @@
-app.factory('ChatService', ['$http', '$q', function($http, $q) {  
+app.factory('ChatService', ['$http', '$q', 'UserStorageService', function($http, $q, UserStorageService) {  
 	var messages = [];
 	var users = [];
 	var updateCallback;
@@ -45,7 +45,7 @@ app.factory('ChatService', ['$http', '$q', function($http, $q) {
 				}
 			});
 		});
-		socket.emit('authenticate', {token: JSON.parse(localStorage.getItem('user')).token}); // send the jwt
+		socket.emit('authenticate', {token: UserStorageService.getUser().token}); // send the jwt
 	})
 	
 	service.getMessages = function(){

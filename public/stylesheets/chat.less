@@ -1,0 +1,120 @@
+@right-margin: 10px;
+@chat-width: 420px;
+@img-size: 35px;
+
+#chat-container{
+	position: fixed;
+    bottom: 70px;
+    right: @right-margin;
+    width: @chat-width;
+    height: 340px;
+    overflow: auto;
+    background: white;
+	font-size: 1.1rem;	
+	border: 1px solid black;
+	
+	#messages{
+		width: 65%;
+		position:absolute;
+		top:0;
+		max-height:100%;
+		overflow:auto;
+		margin:0;
+		
+		.list-group-item{
+			padding: 15px 5px;
+		}
+		
+		h4.list-group-item-heading{
+			font-size: 1.3em;
+		}
+	
+		em{
+			color:#888;
+			font-weight:lighter;
+			float:right;
+			font-size:0.8em;
+		}
+		
+		.chat-message{
+			.img{
+				width: @img-size;
+				height: @img-size;
+				background-size:cover;
+				background-repeat:no-repeat;
+				background-position:center;
+				float:left;
+				border-radius: 50%;
+				border:1px solid black;
+				margin-right: 5px;
+			}
+		}
+	}	
+	
+	#chat-users{
+		width: 28%;
+		position:absolute;
+		left: 67%;
+		
+		h3{
+			margin:0 1px;
+			padding: 5px;
+			background-color:white;
+			text-align:center;
+			font-size:1.6em;
+		}
+		
+		.list-group-item{
+			padding: 3px;
+			border:none;
+			
+			.img{
+				width: @img-size * 0.5;
+				height: @img-size * 0.5;
+				background-size:cover;
+				background-repeat:no-repeat;
+				background-position:center;
+				float:left;
+				border-radius: 50%;
+				border:1px solid black;
+				margin-right: 5px;
+			}
+		}
+	}
+}
+
+#chat-form{
+	margin-top: 8px;
+    position: fixed;
+    right: @right-margin;
+    width: @chat-width;
+    bottom: 10px;
+	
+	input{
+		width: 100%;
+	}
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#chat-container.container, .footer .container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+#chat-container.container .text-muted, .footer .container .text-muted {
+  margin: 20px 0;
+}
+
+#show-chat{
+	position:fixed;
+	right: @right-margin;
+	bottom: 10px;
+	
+	&.active{
+		right: @chat-width + @right-margin + 10px;
+	}
+}

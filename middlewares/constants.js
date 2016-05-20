@@ -5,7 +5,9 @@ var salt;
 
 var prop = {
     salt: undefined,
-    secret: 'efq78qfj;45lsRGSdaT'
+    secret: 'efq78qfj;45lsRGSdaT',
+    pushToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZmU5NjQ4Yy05YTQ1LTQ5OTEtYThkNS02YTI0ZGY4NmVmMTkifQ.dFViZ2jQlhDfBWVTHUHShJVCGAcBWPEA_TcHFMK0YRw',
+    pushProfile: 'dev'
 };
 
 db.Configs.findOne({ key: "salt" }, function (err, doc) {

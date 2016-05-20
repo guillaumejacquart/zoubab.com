@@ -11,7 +11,7 @@ body {
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   left: 0;
@@ -26,43 +26,4 @@ body {
 	font-family: 'Special Elite', cursive;
 	text-transform: uppercase;
 	text-shadow: 0px 0px 10px rgba(30, 30, 200, 0.8);
-}
-
-#messages{
-	max-height: 400px;
-    overflow-y: auto;
-	
-	em{
-		color:#888;
-		font-weight:lighter;
-		float:right;
-		font-size:1.2rem;
-	}
-}
-
-#chat-form{
-	margin-top: 8px;
-}
-
-#chat-users{
-	h3{
-		margin:0 1px;
-		padding: 5px;
-		background-color:white;
-		text-align:center;
-	}
-}
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-#chat-container.container, .footer .container {
-  width: auto;
-  max-width: 680px;
-  padding: 0 15px;
-}
-#chat-container.container .text-muted, .footer .container .text-muted {
-  margin: 20px 0;
 }

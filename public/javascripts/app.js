@@ -1,26 +1,40 @@
 var app = angular.module('app', [
-  'ngRoute'
+  'ngRoute',
+  'LocalStorageModule',
+  'angular-loading-bar',
+  'angularFileUpload'
 ]);
 
-app.config(['$routeProvider',
-  function($routeProvider) {
+app.config(['$routeProvider', 'localStorageServiceProvider',
+  function ($routeProvider, localStorageServiceProvider) {
     $routeProvider.
-      when('/chat', {
-        templateUrl: 'partials/chat.html',
-        controller: 'ChatCtrl',
-		controllerAs: 'chat'
+      when('/home', {
+        templateUrl: 'partials/home.html',
+        controller: 'HomeCtrl',
+        controllerAs: 'home'
       }).
       when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginCtrl',
-		controllerAs: 'login'
+        controllerAs: 'login'
       }).
       when('/register', {
         templateUrl: 'partials/register.html',
         controller: 'RegisterCtrl',
-		controllerAs: 'register'
+        controllerAs: 'register'
+      }).
+      when('/profile', {
+        templateUrl: 'partials/profile.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'profile'
       }).
       otherwise({
-        redirectTo: '/chat'
+        redirectTo: '/home'
       });
+
+    localStorageServiceProvider
+      .setPrefix('zoubab');
   }]);
+
+var baseUrl = "";
+var apiUrl = baseUrl + "/api";

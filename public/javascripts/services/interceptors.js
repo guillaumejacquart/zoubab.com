@@ -1,8 +1,8 @@
-app.factory('sessionInjector', ['$location', function($location) {  
+app.factory('sessionInjector', ['$location', 'UserStorageService', function($location, UserStorageService) {  
     var sessionInjector = {
         request: function(config) {
 			try{
-				var user = JSON.parse(localStorage.getItem('user'));
+				var user = UserStorageService.getUser();
 				if (user && user.token) {
 					config.headers['Authorization'] = 'Bearer ' + user.token;
 				}

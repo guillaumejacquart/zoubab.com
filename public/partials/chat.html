@@ -1,38 +1,33 @@
-<div class="container" id="chat-container">
-	<div id="home" class="animated bounce">
-		<h1>Zoubab</h1>
+<div id="chat-container" ng-show="chat.show">
+	
+	<div id="messages" class="list-group" schroll-bottom="chat.messages">		
+		<div ng-repeat="m in chat.messages" class="list-group-item chat-message">
+			<div style="background-image:url('{{chat.getPicture(m)}}')" class="img"></div>
+			<h4 class="list-group-item-heading">{{m.username}}<em>{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }}</em></h4>
+			<p class="list-group-item-text">{{ m.msg }}</p>
+		</div>
+	</div>
+		
+	<div id="chat-users">
+		<h3>Connected</h3>
+		<div class="list-group">
+			<div ng-repeat="u in chat.users" class="list-group-item">
+				<div style="background-image:url('{{chat.getPictureUser(u)}}')" class="img"></div>
+				<p class="list-group-item-heading">{{u.username}}</p>
+			</div>
+		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col col-md-9">
-			<div id="messages" class="list-group" schroll-bottom="chat.messages">		
-				<div ng-repeat="m in chat.messages" class="list-group-item">
-					<h4 class="list-group-item-heading">{{m.username}}<em>{{ m.date | date:'dd-MM-yyyy HH:mm:ss' }}</em></h4>
-					<p class="list-group-item-text">{{ m.msg }}</p>
-				</div>
-			</div>
-		</div>
-			
-		<div class="col col-md-3" id="chat-users">
-			<h3>Connected</h3>
-			<div class="list-group">
-				<div ng-repeat="m in chat.users" class="list-group-item">
-					<p class="list-group-item-heading">{{m.username}}</p>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 	
 <footer class="footer">
 	<div class="container">
-		<form id="chat-form" ng-submit="chat.submit(chat.msg)">
-			<div class="input-group">
+	
+		<form id="chat-form" ng-submit="chat.submit(chat.msg)" ng-show="chat.show">
+			<div>
 				<input ng-model="chat.msg" autocomplete="off" class="form-control" placeholder="Say a little prayer for Zoubab"/>
-				<span class="input-group-btn">
-					<button class="btn btn-success" type="submit">Send!</button>
-				</span>
 			</div>
 		</form>
+		<button ng-show="chat.user" class="btn btn-sm btn-primary" ng-class="{active: chat.show}" ng-click="chat.toggleChat()" id="show-chat">Chat</button>
 	</div>
 </footer>
