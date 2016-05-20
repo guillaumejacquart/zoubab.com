@@ -40,7 +40,7 @@ router.post('/:id/picture',
 			User.update(req.params.id, { picture: req.file.path }, function(err, user){
 				if(oldPicturePath){
 					try{
-						path.exists(oldPicturePath, function(exists) { 
+						fs.exists(oldPicturePath, function(exists) { 
 							if (exists) { 
 								fs.unlink(oldPicturePath);
 							} 
@@ -59,7 +59,17 @@ router.get('/:id/picture',
 		passport.authenticate('bearer', { session: false }),
 		User.get(req.params.id, function(err, user){
 			if(user && user.picture){
-				res.sendFile(path.join(__dirname, '../', user.picture));
+				var imagePath = path.join(__dirname, '../', user.picture);
+				fs.exists(imagePath, function(exists) { 
+					if (exists) { 
+						res.sendFile(path.join(__dirname, '../', user.picture));
+					} 
+					else{						
+						res.sendFile(path.join(__dirname, '../public/images/user.png'));
+					}
+				});
+			}else{
+				res.sendFile(path.join(__dirname, '../public/images/user.png'));
 			}
 		});
 });
