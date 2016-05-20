@@ -15,8 +15,9 @@ passport.use(new BearerStrategy(
 ));
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    user.find(username, password, function(err, user){
+  {usernameField:"email", passwordField:"password"},
+  function(email, password, done) {
+    user.find(email, password, function(err, user){
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });

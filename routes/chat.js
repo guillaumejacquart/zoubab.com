@@ -96,7 +96,7 @@ module.exports = function (io) {
 
 		// socket.io events
 		socket.on("disconnect", function () {
-			User.update(socket.decoded_token.username, false, function () {
+			User.update(socket.decoded_token._id, {isConnected:false}, function () {
 				io.emit('disconnected_user', socket.decoded_token);
 			});
 		});

@@ -2,6 +2,7 @@
 
 	<form class="form-signin" ng-submit="register.submit()">
 		<h2 class="form-signin-heading">Create an account</h2>
+		<div class="alert alert-danger" role="alert" ng-show="register.error">{{register.error}}</div>
 		<label for="inputUsername" class="sr-only">Username</label>
 		<input type="text" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" ng-model="register.user.username">
 		<label for="inputEmail" class="sr-only">Email address</label>

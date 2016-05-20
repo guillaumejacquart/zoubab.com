@@ -1,4 +1,4 @@
-app.factory('sessionInjector', ['$location', 'UserStorageService', function($location, UserStorageService) {  
+app.factory('sessionInjector', ['$location', 'UserStorageService', 'SocketService', function($location, UserStorageService, SocketService) {  
     var sessionInjector = {
         request: function(config) {
 			try{
@@ -15,6 +15,7 @@ app.factory('sessionInjector', ['$location', 'UserStorageService', function($loc
 		responseError: function(response) {
             // Session has expired
             if (response.status == 401 && $location.path() != '/login'){
+				SocketService.socket.disconnect();
                 $location.path('/login');
             }
 			return response;

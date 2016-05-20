@@ -1,4 +1,4 @@
-app.factory('UserService', ['$http', '$q', 'UserStorageService', function($http, $q, UserStorageService) { 
+app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService', function($http, $q, UserStorageService, SocketService) { 
 	
 	var service = {};
 	
@@ -6,7 +6,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', function($http,
 		return $q(function(resolve, reject){
 			$http.post('/api/users/login', user).then(function(response){
 				if(response.status == 200){	
-					UserStorageService.setUser(response.data);
+					setLocalUser(response.data);
 					resolve(response.data);
 				}
 				else{					
@@ -22,7 +22,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', function($http,
 		return $q(function(resolve, reject){
 			$http.post('/api/users/', user).then(function(response){
 				if(response.status == 200){	
-					UserStorageService.setUser(response.data);
+					setLocalUser(response.data);
 					resolve(response.data);
 				}
 				else{					
@@ -42,6 +42,11 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', function($http,
 				reject(error);
 			});
 		});			
+	}
+	
+	function setLocalUser(user){		
+		UserStorageService.setUser(user);
+		SocketService.authenticate();
 	}
 	
 	return service;

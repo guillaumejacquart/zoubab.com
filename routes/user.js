@@ -21,7 +21,10 @@ router.post('/', function(req, res) {
 		username: req.body.username, 
 		password: req.body.password
 	}
-	User.insert(user, function(user){
+	User.insert(user, function(err, user){
+		if(err){
+			res.status(400).json(err);
+		}
 		res.json(user);	
 	});
 });
@@ -65,7 +68,6 @@ router.put('/:id',
 	passport.authenticate('bearer', { session: false }),
 	function(req, res) {	
 		var user = {
-			email: req.body.email,
 			username: req.body.username
 		}
 		User.update(req.params.id, req.body, function(err, user){

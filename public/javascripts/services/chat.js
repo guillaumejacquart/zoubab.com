@@ -1,4 +1,4 @@
-app.factory('ChatService', ['$http', '$q', 'UserStorageService', function($http, $q, UserStorageService) {  
+app.factory('ChatService', ['$http', '$q', 'UserStorageService', 'SocketService', function($http, $q, UserStorageService, SocketService) {  
 	var messages = [];
 	var users = [];
 	var updateCallback;
@@ -11,42 +11,40 @@ app.factory('ChatService', ['$http', '$q', 'UserStorageService', function($http,
 		}
 	};
 	
-	var socket = io();
-	socket.on('connect', function () {
-		socket.on('authenticated', function () {
-			//Do
-			socket.on('chat message', function (msg) {
-				service.messages.push(msg);
-				if(updateCallback){
-					updateCallback();
-				}
-			});
-			
-			socket.on('connected_user', function(user){
-				var elems = service.users.filter(function(u){return u._id === user._id});
-				if(!elems.length){
-					service.users.push(user);
-				}
-				if(updateCallback){
-					updateCallback();
-				}
-			});
-			
-			socket.on('disconnected_user', function(user){
-				var elems = service.users.filter(function(u){return u._id === user._id});
-				if(elems.length){
-					var index = service.users.indexOf(elems[0]);
-					if(index != - 1){
-						service.users.splice(index, 1);
-						if(updateCallback){
-							updateCallback();
-						}
+	var socket = SocketService.socket;
+	socket.on('authenticated', function () {
+		//Do
+		socket.on('chat message', function (msg) {
+			service.messages.push(msg);
+			if(updateCallback){
+				updateCallback();
+			}
+		});
+		
+		socket.on('connected_user', function(user){
+			var elems = service.users.filter(function(u){return u._id === user._id});
+			if(!elems.length){
+				service.users.push(user);
+			}
+			if(updateCallback){
+				updateCallback();
+			}
+		});
+		
+		socket.on('disconnected_user', function(user){
+			var elems = service.users.filter(function(u){return u._id === user._id});
+			if(elems.length){
+				var index = service.users.indexOf(elems[0]);
+				if(index != - 1){
+					service.users.splice(index, 1);
+					if(updateCallback){
+						updateCallback();
 					}
 				}
-			});
+			}
 		});
-		socket.emit('authenticate', {token: UserStorageService.getUser().token}); // send the jwt
-	})
+	});
+	SocketService.authenticate(); // send the jwt
 	
 	service.getMessages = function(){
 		return $q(function(resolve, reject){

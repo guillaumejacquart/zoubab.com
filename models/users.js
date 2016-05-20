@@ -9,14 +9,28 @@ module.exports = {
         var hash = bcrypt.hashSync(user.email + user.password, constants.salt);
         user.isConnected = false;
         user.hash = hash;
+        delete user.password;
         
-        db.Users.insert(user, function (err, newDoc) {		
-            var token = jwt.sign(newDoc, constants.secret);
-            if(callback){
-                newDoc.token = token;
-                callback(newDoc);
+        db.Users.findOne({$or: [{ email: user.email }, { username: user.username }]}, function (err, exists) {
+            if(exists){
+                callback('a user with this email or username already exists !');
+                return;
+            }else{
+                db.Users.insert(user, function (err, newDoc) {	
+                    if(err){      
+                        if(callback){                  
+                            callback(err);
+                        }
+                        return;
+                    }	
+                    var token = jwt.sign(newDoc, constants.secret);
+                    if(callback){
+                        newDoc.token = token;
+                        callback(err, newDoc);
+                    }
+                });
             }
-        });
+        });        
     },
     find: function(email, password, callback){        
 	    var hash = bcrypt.hashSync(email + password, constants.salt);
