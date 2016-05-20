@@ -37,7 +37,13 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	service.update = function(user){
 		return $q(function(resolve, reject){
 			$http.put('/api/users/' + user._id, user).then(function(response){
-				resolve(response.data);
+				if(response.status == 200){	
+					setLocalUser(response.data);
+					resolve(response.data);
+				}
+				else{					
+					reject(response.data);
+				}
 			}, function(error){
 				reject(error);
 			});

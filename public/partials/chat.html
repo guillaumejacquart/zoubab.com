@@ -25,7 +25,7 @@
 	
 		<form id="chat-form" ng-submit="chat.submit(chat.msg)" ng-show="chat.show">
 			<div>
-				<input ng-model="chat.msg" autocomplete="off" class="form-control" placeholder="Say a little prayer for Zoubab"/>
+				<input ng-model="chat.msg" autocomplete="off" class="form-control input-sm" placeholder="Say a little prayer for Zoubab"/>
 			</div>
 		</form>
 		<button ng-show="chat.user" class="btn btn-sm btn-primary" ng-class="{active: chat.show}" ng-click="chat.toggleChat()" id="show-chat">Chat</button>

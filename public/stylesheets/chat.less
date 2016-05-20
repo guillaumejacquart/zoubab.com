@@ -118,3 +118,40 @@
 		right: @chat-width + @right-margin + 10px;
 	}
 }
+
+
+
+@media screen and (max-width: 640px) {
+	#chat-container{
+		width: 94%;
+		height: auto;
+		top: 3%;
+		bottom: 62px;
+		left: 3%;
+		z-index: 9999;
+	}
+	
+
+	#chat-form{
+		margin-top: 8px;
+		position: fixed;
+		right: @right-margin;
+		left: 18%;
+		bottom: 10px;
+		
+		input{
+			width: 80%;
+		}
+	}	
+	
+	#show-chat{
+		position:fixed;
+		right: @right-margin;
+		bottom: 10px;
+		width: 15%;
+		
+		&.active{
+			left: @right-margin;
+		}
+	}
+}
