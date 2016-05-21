@@ -47,7 +47,7 @@ app.factory('ChatService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	
 	service.getMessages = function(){
 		return $q(function(resolve, reject){
-			$http.get('api/chats').then(function(response){
+			$http.get(apiUrl + '/chats').then(function(response){
 				service.messages.length = 0;
 				service.messages.push.apply(service.messages, response.data.messages);
 				service.users.length = 0;

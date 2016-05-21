@@ -49,7 +49,7 @@ module.exports = {
         });
     },
     findConnected: function(callback){        
-        db.Users.find({ isConnected: true }, function (err, user) {
+        db.Users.find({ isConnected: true }, {token: 0, picture: 0, password:0, hash: 0}, function (err, user) {
             if(callback){
                 callback(err, user);
             }

@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/doc', express.static(path.join(__dirname, 'apidoc')));
 
 app.use('/api/users', user);
 app.use('/api/chats', chat);

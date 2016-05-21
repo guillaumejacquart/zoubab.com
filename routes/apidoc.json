@@ -1,0 +1,11 @@
+{
+  "name": "Zoubab API",
+  "version": "0.1.0",
+  "description": "The zoubab RESTful api",
+  "apidoc": {
+    "title": "Zoubab API",
+    "url" : "https://www.zoubab.com/api",
+	"sampleUrl" : "https://www.zoubab.com/api"
+  },
+  "sampleUrl" : "https://www.zoubab.com/api"
+}
