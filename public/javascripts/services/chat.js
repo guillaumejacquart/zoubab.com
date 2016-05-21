@@ -44,7 +44,6 @@ app.factory('ChatService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			}
 		});
 	});
-	SocketService.authenticate(); // send the jwt
 	
 	service.getMessages = function(){
 		return $q(function(resolve, reject){

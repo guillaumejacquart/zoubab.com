@@ -5,10 +5,6 @@ app.factory('SocketService', ['UserStorageService', function(UserStorageService)
 	
 	var socket = service.socket = io();
 	
-	socket.on('connect', function () {
-		service.authenticate();
-	})
-	
 	service.authenticate = function(){
 		var user = UserStorageService.getUser();
 		if(user && user.token && ! hasAuthenticated){			

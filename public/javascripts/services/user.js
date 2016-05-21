@@ -50,6 +50,13 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 		});			
 	}
 	
+	var user = UserStorageService.getUser();
+	if(user && user.token){	
+		SocketService.socket.on('connect', function () {
+			SocketService.authenticate();
+		});
+	}
+	
 	function setLocalUser(user){		
 		UserStorageService.setUser(user);
 		SocketService.authenticate();
