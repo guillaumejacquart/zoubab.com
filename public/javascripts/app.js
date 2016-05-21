@@ -36,5 +36,8 @@ app.config(['$routeProvider', 'localStorageServiceProvider',
       .setPrefix('zoubab');
   }]);
 
+app.run(['UserService', function(UserService){
+  UserService.init();
+}]);
 var baseUrl = "";
 var apiUrl = baseUrl + "/api";
