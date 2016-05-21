@@ -40,4 +40,4 @@ app.run(['UserService', function(UserService){
   UserService.init();
 }]);
 var baseUrl = "";
-var apiUrl = baseUrl + "/test/api";
+var apiUrl = baseUrl + "/api";
