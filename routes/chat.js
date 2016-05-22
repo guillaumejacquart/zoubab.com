@@ -112,13 +112,22 @@ module.exports = function (io) {
 				userId: req.user._id,
 				msg: req.body.msg
 			};
-			User.get(req.user._id, function (err, user) {	
+			User.get(req.user._id, function (err, user) {
+				if(err){
+					res.status(500).send(err);
+				}
 				message.username = user.username;		
-				Chat.insert(message, function (err, newDoc) {
+				Chat.insert(message, function (err, newDoc) {					
+					if(err){
+						res.status(500).send(err);
+					}
+					
 					io.emit('chat message', newDoc);					
 					var tokens = [];
 					tokens.push(user.token);
 					sendPush(message, tokens);
+					
+					res.sendStatus(200)
 				});
 			});
 		});
