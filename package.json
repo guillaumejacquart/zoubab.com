@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-	"apidoc": "./node_modules/.bin/apidoc"
+    "apidoc": "./node_modules/.bin/apidoc"
   },
   "dependencies": {
     "apidoc": "^0.16.1",

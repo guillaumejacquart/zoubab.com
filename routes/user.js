@@ -169,9 +169,10 @@ router.put('/:id',
 	passport.authenticate('bearer', { session: false }),
 	function(req, res) {	
 		var user = {
-			username: req.body.username
+			username: req.body.username,
+			token: req.body.token
 		}
-		User.update(req.params.id, req.body, function(err, user){
+		User.update(req.params.id, user, function(err, user){
 			res.json(user);	
 		});
 });

@@ -4,7 +4,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	
     service.login = function(user){
 		return $q(function(resolve, reject){
-			$http.post('/api/users/login', user).then(function(response){
+			$http.post(apiUrl + '/users/login', user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
 					resolve(response.data);
@@ -20,7 +20,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	
 	service.register = function(user){
 		return $q(function(resolve, reject){
-			$http.post('/api/users/', user).then(function(response){
+			$http.post(apiUrl + '/users/', user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
 					resolve(response.data);
@@ -36,7 +36,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	
 	service.update = function(user){
 		return $q(function(resolve, reject){
-			$http.put('/api/users/' + user._id, user).then(function(response){
+			$http.put(apiUrl + '/users/' + user._id, user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
 					resolve(response.data);

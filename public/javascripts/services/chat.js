@@ -60,7 +60,9 @@ app.factory('ChatService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	};
 	
 	service.newMessage = function(msg){		
-		socket.emit('chat message', msg);
+		return $http.post(apiUrl + '/chats/', {
+			msg: msg
+		});
 	};
 	
 	return service;
