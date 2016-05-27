@@ -33,6 +33,9 @@ function sendPush(msg, targetsToken) {
 					"title": "New zoubab message",
 					"message": "user " + msg.username + " sent a new message",
 					"icon": "icon.png",
+					"data": {
+						"image": "http://www.zoubab.com/images/icon.png"
+					},
 					"payload": {
 						"message": msg.msg
 					}
