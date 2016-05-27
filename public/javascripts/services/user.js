@@ -7,6 +7,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			$http.post(apiUrl + '/users/login', user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
+					service.init();
 					resolve(response.data);
 				}
 				else{					
@@ -56,14 +57,13 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			SocketService.socket.on('connect', function () {
 				SocketService.authenticate();
 			});
-			if(!SocketService.socket.connected){
-				SocketService.socket.connect();
-			}
+			SocketService.Connect();
 		}
 	}
 	
 	service.logout = function(){
 		setLocalUser();
+		SocketService.Disconnect();
 	}
 	
 	function setLocalUser(user){		

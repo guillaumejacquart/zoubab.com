@@ -52,7 +52,8 @@ module.exports = {
                 var user = {
                     username: profile.displayName,
                     email: profile.email,
-                    pictureUrl: profile.photos[0].value
+                    pictureUrl: profile.photos[0].value,
+                    facebookId: profile.id
                 };
                 
                 db.Users.insert(user, function (err, newDoc) {	

@@ -1,4 +1,10 @@
-app.factory('ChatService', ['$http', '$q', 'UserStorageService', 'SocketService', function($http, $q, UserStorageService, SocketService) {  
+app.factory('ChatService', [
+	'$http', 
+	'$q', 
+	'UserStorageService', 
+	'SocketService', 
+	'UserService', 
+	function($http, $q, UserStorageService, SocketService, UserService) {  
 	var messages = [];
 	var users = [];
 	var updateCallback;
