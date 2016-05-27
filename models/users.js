@@ -41,6 +41,36 @@ module.exports = {
             }
         });
     },
+    findOrCreateFacebook: function(profile, callback){        
+        db.Users.findOne({ facebookId: profile.id }, function (err, user) {
+            if(user){                
+                if(callback){
+                    callback(err, user);
+                }
+            }
+            else{
+                var user = {
+                    username: profile.displayName,
+                    email: profile.email,
+                    pictureUrl: profile.photos[0].value
+                };
+                
+                db.Users.insert(user, function (err, newDoc) {	
+                    if(err){      
+                        if(callback){                  
+                            callback(err);
+                        }
+                        return;
+                    }	
+                    var token = jwt.sign(newDoc, constants.secret);
+                    if(callback){
+                        newDoc.token = token;
+                        callback(err, newDoc);
+                    }
+                });
+            }
+        });
+    },
     get: function(id, callback){        
         db.Users.findOne({ _id: id }, function (err, user) {
             if(callback){

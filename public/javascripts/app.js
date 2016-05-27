@@ -36,8 +36,28 @@ app.config(['$routeProvider', 'localStorageServiceProvider',
       .setPrefix('zoubab');
   }]);
 
-app.run(['UserService', function(UserService){
+app.run([
+	'$window', 
+	'$rootScope', 
+	'UserService', 
+	'UserStorageService', 
+	'$location',
+	function($window, $rootScope, UserService, UserStorageService, $location){
   UserService.init();
+  
+  $window.app = {
+        authState: function(state, user) {
+            $rootScope.$apply(function() {
+                switch (state) {
+                    case 'success':
+                        UserStorageService.setUser(user);
+						$location.path('/');
+                        break;
+                }
+
+            });
+        }
+    };
 }]);
 var baseUrl = "";
 var apiUrl = baseUrl + "/api";

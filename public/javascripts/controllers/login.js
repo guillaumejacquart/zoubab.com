@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', ['$scope', '$location', 'UserService', function ($scope, $location, UserService) {
+app.controller('LoginCtrl', ['$scope', '$location', '$window', 'UserService', function ($scope, $location, $window, UserService) {
     
 	var vm = this;
 	vm.user = {};
@@ -10,5 +10,14 @@ app.controller('LoginCtrl', ['$scope', '$location', 'UserService', function ($sc
 		}, function(error){
 			$scope.error = error;
 		});
+	};
+	
+	vm.facebookLogin = function() {
+		var url = '/auth/facebook',
+			width = 1000,
+			height = 650,
+			top = (window.outerHeight - height) / 2,
+			left = (window.outerWidth - width) / 2;
+		$window.open(url, 'facebook_login', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
 	};
 }]);

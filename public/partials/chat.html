@@ -13,7 +13,7 @@
 		<div class="list-group">
 			<div ng-repeat="u in chat.users" class="list-group-item">
 				<div style="background-image:url('{{chat.getPictureUser(u)}}')" class="img"></div>
-				<p class="list-group-item-heading">{{u.username}}</p>
+				<p class="list-group-item-heading">{{u.username || u.email}}</p>
 			</div>
 		</div>
 	</div>

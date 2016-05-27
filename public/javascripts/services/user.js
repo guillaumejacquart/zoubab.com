@@ -59,6 +59,10 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 		}
 	}
 	
+	service.logout = function(){
+		setLocalUser();
+	}
+	
 	function setLocalUser(user){		
 		UserStorageService.setUser(user);
 		SocketService.authenticate();

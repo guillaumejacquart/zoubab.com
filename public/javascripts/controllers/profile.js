@@ -47,4 +47,9 @@ app.controller('ProfileCtrl', [
 			$scope.error = error;
 		});
 	};
+	
+	vm.logout = function(){
+		UserService.logout();
+		$location.path('/login');
+	}
 }]);
