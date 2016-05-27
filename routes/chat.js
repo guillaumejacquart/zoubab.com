@@ -32,7 +32,7 @@ function sendPush(msg, targetsToken) {
 				"android": {
 					"title": "New zoubab message",
 					"message": "user " + msg.username + " sent a new message",
-					"icon": "icon.png",
+					"icon": "res://icon.png",
 					"data": {
 						"image": "http://www.zoubab.com/images/icon.png"
 					},
