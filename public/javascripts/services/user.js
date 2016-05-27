@@ -56,6 +56,9 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			SocketService.socket.on('connect', function () {
 				SocketService.authenticate();
 			});
+			if(!SocketService.socket.connected){
+				SocketService.socket.connect();
+			}
 		}
 	}
 	

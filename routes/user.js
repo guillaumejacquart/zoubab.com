@@ -129,6 +129,11 @@ router.get('/:id/picture',
 	function(req, res) {
 		passport.authenticate('bearer', { session: false }),
 		User.get(req.params.id, function(err, user){
+			if(user && user.pictureUrl){
+				res.redirect(user.pictureUrl);
+				return;
+			}
+			
 			if(user && user.picture){
 				var imagePath = path.join(__dirname, '../', user.picture);
 				fs.exists(imagePath, function(exists) { 

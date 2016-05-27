@@ -51,6 +51,7 @@ app.run([
                 switch (state) {
                     case 'success':
                         UserStorageService.setUser(user);
+						UserService.init();
 						$location.path('/');
                         break;
                 }
