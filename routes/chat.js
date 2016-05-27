@@ -6,11 +6,14 @@ var constants = require('../middlewares/constants');
 var User = require('../models/users');
 var Chat = require('../models/chats');
 var request = require('request');
+var path = require('path');
+var fs = require('fs');
 
 function sendPush(msg, targetsToken) {
 	var jwt = constants.pushToken;
 	var tokens = targetsToken;
 	var profile = constants.pushProfile;
+	var icon = path.join(__dirname, '../public/images/icon.png');
 
 	// Build the request object
 	request({
@@ -29,6 +32,7 @@ function sendPush(msg, targetsToken) {
 				"android": {
 					"title": "New zoubab message",
 					"message": "user " + msg.username + " sent a new message",
+					"icon": icon,
 					"payload": {
 						"message": msg.msg
 					}
