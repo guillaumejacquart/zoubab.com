@@ -64,9 +64,9 @@ module.exports = {
         });
     },
     getDeviceTokens: function(callback){
-        db.Users.find({}, { device: 1 }, function (err, user) {
+        db.Users.find({}, { deviceToken: 1 }, function (err, tokens) {
             if(callback){
-                callback(err, user);
+                callback(err, tokens);
             }
         });
     }

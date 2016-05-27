@@ -170,9 +170,9 @@ router.put('/:id',
 	function(req, res) {	
 		var user = {
 			username: req.body.username,
-			token: req.body.token
+			deviceToken: req.body.deviceToken
 		}
-		User.update(req.params.id, user, function(err, user){
+		User.update(req.user._id, user, function(err, user){
 			res.json(user);	
 		});
 });

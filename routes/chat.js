@@ -110,21 +110,21 @@ module.exports = function (io) {
 		function (req, res, next) {
 			var message = {
 				userId: req.user._id,
+				username: req.user.username || req.user.email,
 				msg: req.body.msg
 			};
-			User.get(req.user._id, function (err, user) {
+			User.getDeviceTokens(function (err, userTokens) {
 				if(err){
 					res.status(500).send(err);
-				}
-				message.username = user.username;		
+				}	
 				Chat.insert(message, function (err, newDoc) {					
 					if(err){
 						res.status(500).send(err);
 					}
 					
 					io.emit('chat message', newDoc);					
-					var tokens = [];
-					tokens.push(user.token);
+					var tokens = userTokens.map(function(u){ return u.deviceToken;})
+						.filter(function(t){return t});
 					sendPush(message, tokens);
 					
 					res.sendStatus(200)
