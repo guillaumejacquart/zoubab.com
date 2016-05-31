@@ -7,6 +7,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			$http.post(apiUrl + '/users/login', user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
+					UserStorageService.setToken(response.data.token);
 					service.init();
 					resolve(response.data);
 				}
@@ -24,6 +25,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			$http.post(apiUrl + '/users/', user).then(function(response){
 				if(response.status == 200){	
 					setLocalUser(response.data);
+					UserStorageService.setToken(response.data.token);
 					resolve(response.data);
 				}
 				else{					
@@ -39,7 +41,7 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 		return $q(function(resolve, reject){
 			$http.put(apiUrl + '/users/' + user._id, user).then(function(response){
 				if(response.status == 200){	
-					setLocalUser(response.data);
+					service.get();
 					resolve(response.data);
 				}
 				else{					
@@ -48,12 +50,20 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 			}, function(error){
 				reject(error);
 			});
-		});			
+		});	
+	};
+	
+	service.get = function(user){
+		$http.get(apiUrl + '/users/me').then(function(response){
+			setLocalUser(response.data);
+		}, function(err){
+		});
+		return UserStorageService.getUser();
 	}
 	
 	service.init = function(){
-		var user = UserStorageService.getUser();
-		if(user && user.token){	
+		var token = UserStorageService.getToken();
+		if(token){	
 			SocketService.socket.on('connect', function () {
 				SocketService.authenticate();
 			});
@@ -62,7 +72,8 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	}
 	
 	service.logout = function(){
-		setLocalUser();
+		UserStorageService.setUser();
+		UserStorageService.setToken();
 		SocketService.Disconnect();
 	}
 	

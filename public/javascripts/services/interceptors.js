@@ -2,9 +2,9 @@ app.factory('sessionInjector', ['$location', 'UserStorageService', 'SocketServic
     var sessionInjector = {
         request: function(config) {
 			try{
-				var user = UserStorageService.getUser();
-				if (user && user.token) {
-					config.headers['Authorization'] = 'Bearer ' + user.token;
+				var token = UserStorageService.getToken();
+				if (token) {
+					config.headers['Authorization'] = 'Bearer ' + token;
 				}
 				return config;
 			}

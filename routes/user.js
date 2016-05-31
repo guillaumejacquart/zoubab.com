@@ -127,7 +127,6 @@ router.post('/:id/picture',
  */
 router.get('/:id/picture',
 	function(req, res) {
-		passport.authenticate('bearer', { session: false }),
 		User.get(req.params.id, function(err, user){
 			if(user && user.pictureUrl){
 				res.redirect(user.pictureUrl);
@@ -147,6 +146,27 @@ router.get('/:id/picture',
 			}else{
 				res.sendFile(path.join(__dirname, '../public/images/user.png'));
 			}
+		});
+});
+
+/**
+ * @api {get} /users/:id Get user infos
+ * @apiDescription Get user infos by id.
+ * @apiName GetProfile
+ * @apiGroup Users
+ *
+ * @apiHeader {String} Authorization Authorization value (bearer token).
+ * @apiHeaderExample {String} Header-Example: 
+ * 		Bearer T0k3n
+ */
+router.get('/me',
+	passport.authenticate('bearer', { session: false }),
+	function(req, res) {
+		User.get(req.user._id, function(err, user){
+			if(err){
+				res.status(500).json(err);
+			}
+			res.json(user);	
 		});
 });
 
@@ -178,7 +198,7 @@ router.put('/:id',
 			deviceToken: req.body.deviceToken
 		}
 		User.update(req.user._id, user, function(err, user){
-			res.json(user);	
+			res.json({success: true});	
 		});
 });
 

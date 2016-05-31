@@ -8,7 +8,7 @@ app.controller('ProfileCtrl', [
 	var vm = this;
 	
 	function getUser(){
-		vm.user = UserStorageService.getUser();
+		vm.user = UserService.get();
 		vm.user.picturePath = apiUrl + '/users/' + vm.user._id + '/picture?' + new Date().getTime();
 	}
 	getUser();

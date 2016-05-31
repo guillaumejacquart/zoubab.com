@@ -1,19 +1,27 @@
-app.factory('UserStorageService', ['localStorageService', '$location', function(localStorageService, $location) { 
+app.factory('UserStorageService', ['localStorageService', '$location', function (localStorageService, $location) {
 	var service = {};
 	var anonymousPaths = ['/login', '/register'];
-	
-    service.setUser = function(user){
-		var user = localStorageService.set('user', user);
+
+	service.setUser = function (user) {
+		localStorageService.set('user', user);
 	}
 	
-    service.getUser = function(user){
-		var user = localStorageService.get('user');
-		if((!user || !user.token) && anonymousPaths.indexOf($location.path()) == -1){
+	service.setToken = function (token) {
+		localStorageService.set('token', token);
+	}
+
+	service.getUser = function (user) {
+		return localStorageService.get('user');
+	}
+
+	service.getToken = function () {
+		var token = localStorageService.get('token');
+		if (!token && anonymousPaths.indexOf($location.path()) == -1) {
 			$location.path('/login');
 			return;
 		}
-		return user;
+		return token;
 	}
-	
+
 	return service;
 }]);

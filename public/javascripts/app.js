@@ -37,28 +37,29 @@ app.config(['$routeProvider', 'localStorageServiceProvider',
   }]);
 
 app.run([
-	'$window', 
-	'$rootScope', 
-	'UserService', 
-	'UserStorageService', 
-	'$location',
-	function($window, $rootScope, UserService, UserStorageService, $location){
-  UserService.init();
-  
-  $window.app = {
-        authState: function(state, user) {
-            $rootScope.$apply(function() {
-                switch (state) {
-                    case 'success':
-                        UserStorageService.setUser(user);
-						UserService.init();
-						$location.path('/');
-                        break;
-                }
+  '$window',
+  '$rootScope',
+  'UserService',
+  'UserStorageService',
+  '$location',
+  function ($window, $rootScope, UserService, UserStorageService, $location) {
+    UserService.init();
 
-            });
-        }
+    $window.app = {
+      authState: function (state, user) {
+        $rootScope.$apply(function () {
+          switch (state) {
+            case 'success':
+              UserStorageService.setUser(user);
+              UserStorageService.setToken(user.token);
+              UserService.init();
+              $location.path('/');
+              break;
+          }
+
+        });
+      }
     };
-}]);
+  }]);
 var baseUrl = "";
 var apiUrl = baseUrl + "/api";

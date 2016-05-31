@@ -6,9 +6,9 @@ app.factory('SocketService', ['UserStorageService', function(UserStorageService)
 	var socket = service.socket = io();
 	
 	service.authenticate = function(){
-		var user = UserStorageService.getUser();
-		if(user && user.token && !hasAuthenticated){			
-			socket.emit('authenticate', {token: user.token}); // send the jwt	
+		var token = UserStorageService.getToken();
+		if(token && !hasAuthenticated){			
+			socket.emit('authenticate', {token: token}); // send the jwt	
 			hasAuthenticated = true;
 		}	
 	}
