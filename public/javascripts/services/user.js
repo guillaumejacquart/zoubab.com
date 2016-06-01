@@ -64,10 +64,10 @@ app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService'
 	service.init = function(){
 		var token = UserStorageService.getToken();
 		if(token){	
+			SocketService.Connect();
 			SocketService.socket.on('connect', function () {
 				SocketService.authenticate();
 			});
-			SocketService.Connect();
 		}
 	}
 	
