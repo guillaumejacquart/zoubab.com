@@ -1,5 +1,6 @@
 {
   "apps" : [{
+	"name": "zoubab.com",
     "script"      : "./bin/www",
     "watch"       : true,
     "env": {
