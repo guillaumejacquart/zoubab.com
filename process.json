@@ -2,7 +2,7 @@
   "apps" : [{
 	"name": "zoubab.com",
     "script"      : "./bin/www",
-    "watch"       : true,
+    "watch"       : false,
     "env": {
       "NODE_ENV": "production",
 	  "PORT": 3003
