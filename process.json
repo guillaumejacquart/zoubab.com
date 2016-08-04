@@ -5,7 +5,7 @@
     "watch"       : true,
     "env": {
       "NODE_ENV": "production",
-	  "PORT": 3001
+	  "PORT": 3003
     },
     "env_dev" : {
        "NODE_ENV": "development",
