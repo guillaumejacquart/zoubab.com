@@ -1,10 +1,10 @@
-app.factory('sessionInjector', ['$location', function($location) {  
+app.factory('sessionInjector', ['$location', 'UserStorageService', 'SocketService', function($location, UserStorageService, SocketService) {  
     var sessionInjector = {
         request: function(config) {
 			try{
-				var user = JSON.parse(localStorage.getItem('user'));
-				if (user && user.token) {
-					config.headers['Authorization'] = 'Bearer ' + user.token;
+				var token = UserStorageService.getToken();
+				if (token) {
+					config.headers['Authorization'] = 'Bearer ' + token;
 				}
 				return config;
 			}
@@ -15,6 +15,7 @@ app.factory('sessionInjector', ['$location', function($location) {
 		responseError: function(response) {
             // Session has expired
             if (response.status == 401 && $location.path() != '/login'){
+				SocketService.socket.disconnect();
                 $location.path('/login');
             }
 			return response;

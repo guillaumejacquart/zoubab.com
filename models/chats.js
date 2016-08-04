@@ -5,14 +5,8 @@ var jwt = require('jsonwebtoken');
 var db = require('./db');
 
 module.exports = {
-    insert: function(username, msg, callback){
-        
-        var doc = { 
-            username: username,
-            msg: msg,
-            date: new Date()
-        };
-        
+    insert: function(doc, callback){        
+        doc.date= new Date();        
         db.Chat.insert(doc, function (err, newDoc) {
             if(callback){
                 callback(err, newDoc);
@@ -20,9 +14,9 @@ module.exports = {
         });
     },
     find: function(callback){
-        db.Chat.find({}).sort({ date: 1 }).exec(function (err, docs) {
+        db.Chat.find({}).sort({ date: -1 }).limit(100).exec(function (err, docs) {
             if(callback){
-                callback(err, docs);
+                callback(err, docs.reverse());
             }
         });
     }

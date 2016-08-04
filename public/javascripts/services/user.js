@@ -1,9 +1,14 @@
-app.factory('UserService', ['$http', '$q', function($http, $q) {  
-    var login = function(user){
+app.factory('UserService', ['$http', '$q', 'UserStorageService', 'SocketService', function($http, $q, UserStorageService, SocketService) { 
+	
+	var service = {};
+	
+    service.login = function(user){
 		return $q(function(resolve, reject){
-			$http.post('/api/users/login', user).then(function(response){
-				if(response.status == 200){					
-					localStorage.setItem('user', JSON.stringify(response.data));
+			$http.post(apiUrl + '/users/login', user).then(function(response){
+				if(response.status == 200){	
+					setLocalUser(response.data);
+					UserStorageService.setToken(response.data.token);
+					service.init();
 					resolve(response.data);
 				}
 				else{					
@@ -15,19 +20,67 @@ app.factory('UserService', ['$http', '$q', function($http, $q) {
 		});			
 	}
 	
-	var register = function(user){
+	service.register = function(user){
 		return $q(function(resolve, reject){
-			$http.post('/api/users/', user).then(function(response){
-				localStorage.setItem('user', JSON.stringify(response.data));
-				resolve(response.data);
+			$http.post(apiUrl + '/users/', user).then(function(response){
+				if(response.status == 200){	
+					setLocalUser(response.data);
+					UserStorageService.setToken(response.data.token);
+					resolve(response.data);
+				}
+				else{					
+					reject(response.data);
+				}
 			}, function(error){
 				reject(error);
 			});
 		});			
 	}
 	
-	return {
-		login: login,
-		register: register
+	service.update = function(user){
+		return $q(function(resolve, reject){
+			$http.put(apiUrl + '/users/' + user._id, user).then(function(response){
+				if(response.status == 200){	
+					service.get();
+					resolve(response.data);
+				}
+				else{					
+					reject(response.data);
+				}
+			}, function(error){
+				reject(error);
+			});
+		});	
 	};
+	
+	service.get = function(user){
+		$http.get(apiUrl + '/users/me').then(function(response){
+			setLocalUser(response.data);
+		}, function(err){
+		});
+		return UserStorageService.getUser();
+	}
+	
+	service.init = function(){
+		var token = UserStorageService.getToken();
+		if(token){	
+			SocketService.Connect();
+			SocketService.socket.on('connect', function () {
+				SocketService.authenticate();
+			});
+		}
+	}
+	
+	service.logout = function(){
+		UserStorageService.setUser();
+		UserStorageService.setToken();
+		SocketService.Disconnect();
+	}
+	
+	function setLocalUser(user){		
+		UserStorageService.setUser(user);
+		SocketService.authenticate();
+	}
+	
+	return service;
 }]);

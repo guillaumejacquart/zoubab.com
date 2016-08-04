@@ -1,13 +1,14 @@
-app.controller('RegisterCtrl', ['$http', '$location', function ($http, $location) {
+app.controller('RegisterCtrl', ['$location', 'UserService', function ($location, UserService) {
     
 	var vm = this;
 	vm.user = {};
 	
 	vm.submit = function(){
-		$http.post('register', vm.user).then(function(response){
-			localStorage.setItem('user', JSON.stringify(response.data));
+		delete vm.error;
+		UserService.register(vm.user).then(function(user){
 			$location.path('/home');
 		}, function(error){
+			vm.error = error;
 		});
 	};
 }]);
