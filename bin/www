@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('zoubab.com:server');
 var http = require('http');
+var swagger = require("swagger-node-express");
 var constants = require('../middlewares/constants');
 
 
@@ -29,6 +30,14 @@ var server = http.createServer(app);
 
 var io     = app.io
 io.attach(server);
+
+
+// Set and display the application URL
+var applicationUrl = 'http://localhost:' + port;
+console.log('snapJob API running on ' + applicationUrl);
+
+
+swagger.configure(applicationUrl, '1.0.0');
 
 /**
  * Listen on provided port, on all network interfaces.

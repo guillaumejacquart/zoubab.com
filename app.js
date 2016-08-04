@@ -6,8 +6,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var middleware = require('swagger-express-middleware');
 
 var app = express();
+
+// Swagger
+var subpath = express();
 
 // Socket.io
 var io = socketio();
@@ -28,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/swagger', express.static(path.join(__dirname, 'dist')));
 
 app.use('/api/users', user);
 app.use('/api/chats', chat);
